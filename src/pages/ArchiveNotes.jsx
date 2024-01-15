@@ -28,6 +28,6 @@ const ArchiveNotes = ({ notes, onSearch, title }) => {
 ArchiveNotes.propTypes = {
 	notes: PropTypes.arrayOf(PropTypes.object).isRequired,
 	onSearch: PropTypes.func.isRequired,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 };
 export default ArchiveNotes;

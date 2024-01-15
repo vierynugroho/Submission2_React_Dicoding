@@ -38,9 +38,9 @@ const ActiveNotes = ({ notes, onSearch, title }) => {
 };
 
 ActiveNotes.propTypes = {
-	notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+	notes: PropTypes.arrayOf(PropTypes.object),
 	onSearch: PropTypes.func.isRequired,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 };
 
 export default ActiveNotes;

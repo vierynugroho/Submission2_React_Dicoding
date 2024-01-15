@@ -14,7 +14,6 @@ const DetailNote = ({ onDelete, onArchive, onUnArchive, notes }) => {
 	}
 
 	const detailNote = getNote(id);
-	const navigate = useNavigate();
 
 	return (
 		<>
