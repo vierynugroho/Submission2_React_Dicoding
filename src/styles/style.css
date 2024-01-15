@@ -237,6 +237,11 @@ main {
   font-weight: lighter;
 }
 
+.link {
+  text-decoration: none;
+  list-style: none;
+}
+
 .input-login input,
 .input-register input {
   font-size: 18px;
@@ -276,6 +281,7 @@ main {
   cursor: pointer;
   color: var(--on-background);
 }
+
 
 @media screen and (min-width: 650px) {
   .notes-list {

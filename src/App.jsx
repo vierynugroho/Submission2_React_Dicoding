@@ -1,22 +1,63 @@
 import { Route, Routes, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { getAllNotes } from './utils/local-data';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import NoteHeader from './components/NoteHeader';
+
+import LocaleContext from './contexts/LocaleContext';
 
 import ActiveNotes from './pages/ActiveNotes';
 import ArchiveNotes from './pages/ArchiveNotes';
 import DetailNote from './pages/DetailNote';
 import AddNote from './pages/AddNote';
 import Custom404 from './pages/Custom404';
+import ThemeContext from './contexts/ThemeContext';
 
 const App = () => {
 	const navigate = useNavigate();
+
+	// state
 	const [notes, setNotes] = useState(getAllNotes);
+
+	// context
+	const [authedUser, setAuthedUser] = useState(null);
+	const [locale, setLocale] = useState('id');
+	const [theme, setTheme] = useState('dark');
+
+	// params
 	const [searchParams, setSearchParams] = useSearchParams();
 	const title = searchParams.get('title');
+
+	// toggle lang
+	const toggleLocale = () => {
+		setLocale((prevLocale) => {
+			return prevLocale === 'id' ? 'en' : 'id';
+		});
+	};
+
+	const localeContextValue = useMemo(() => {
+		return {
+			locale,
+			toggleLocale,
+		};
+	}, [locale]);
+
+	// toggle theme
+	const toggleTheme = () => {
+		setTheme((prevTheme) => {
+			return prevTheme === 'dark' ? 'light' : 'dark';
+		});
+	};
+
+	const ThemeContextValue = useMemo(() => {
+		return {
+			theme,
+			toggleTheme,
+		};
+	}, [theme]);
 
 	// Add Note
 	function addNote({ title, body }) {
@@ -64,54 +105,74 @@ const App = () => {
 
 	return (
 		<>
-			<div className='app-container'>
-				<ToastContainer autoClose={300} />
-				<NoteHeader />
-
-				<Routes>
-					<Route
-						path='/'
-						element={
-							<ActiveNotes
-								notes={getActiveNotesData}
-								onSearch={changeSearchParams}
-								title={title}
-							/>
-						}
-					/>
-					<Route
-						path='/archives'
-						element={
-							<ArchiveNotes
-								notes={getArchiveNotesData}
-								onSearch={changeSearchParams}
-								title={title}
-							/>
-						}
-					/>
-					<Route
-						path='/notes/:id'
-						element={
-							<DetailNote
-								notes={notes}
-								onDelete={deleteNote}
-								onArchive={archiveNote}
-								onUnArchive={unarchiveNote}
-							/>
-						}
-					/>
-					<Route
-						path='/notes/new'
-						element={<AddNote onAdd={addNote} />}
-					/>
-
-					{/* 404 NotFound Page */}
-					<Route
-						path='*'
-						element={<Custom404 />}
-					/>
-				</Routes>
-			</div>
+			<LocaleContext.Provider value={localeContextValue}>
+				<ThemeContext.Provider value={ThemeContextValue}>
+					{authedUser !== null ? (
+						<div className='app-container'>
+							<ToastContainer autoClose={300} />
+							<NoteHeader authedUser={authedUser} />
+							<Routes>
+								<Route
+									path='/'
+									element={
+										<ActiveNotes
+											notes={getActiveNotesData}
+											onSearch={changeSearchParams}
+											title={title}
+										/>
+									}
+								/>
+								<Route
+									path='/archives'
+									element={
+										<ArchiveNotes
+											notes={getArchiveNotesData}
+											onSearch={changeSearchParams}
+											title={title}
+										/>
+									}
+								/>
+								<Route
+									path='/notes/:id'
+									element={
+										<DetailNote
+											notes={notes}
+											onDelete={deleteNote}
+											onArchive={archiveNote}
+											onUnArchive={unarchiveNote}
+										/>
+									}
+								/>
+								<Route
+									path='/notes/new'
+									element={<AddNote onAdd={addNote} />}
+								/>
+								{/* 404 NotFound Page */}
+								<Route
+									path='*'
+									element={<Custom404 />}
+								/>
+							</Routes>
+						</div>
+					) : (
+						<div className='app-container'>
+							<ToastContainer autoClose={300} />
+							<NoteHeader authedUser={authedUser} />
+							<Routes>
+								<Route
+									path='/*'
+									element={<p>Halaman Login</p>}
+								/>
+								<Route
+									path='/register'
+									element={<p>Halaman Register</p>}
+								/>
+							</Routes>
+							{theme === 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+						</div>
+					)}
+				</ThemeContext.Provider>
+			</LocaleContext.Provider>
 		</>
 	);
 };
