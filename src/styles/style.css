@@ -228,7 +228,7 @@ main {
 
 .input-login,
 .input-register {
-  margin: 32px 0;
+  margin: 32px;
 }
 
 .input-login label,

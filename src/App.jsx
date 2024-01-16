@@ -15,6 +15,7 @@ import DetailNote from './pages/DetailNote';
 import AddNote from './pages/AddNote';
 import Custom404 from './pages/Custom404';
 import ThemeContext from './contexts/ThemeContext';
+import RegisterPage from './pages/Auth/RegisterPage';
 
 const App = () => {
 	const navigate = useNavigate();
@@ -165,7 +166,7 @@ const App = () => {
 								/>
 								<Route
 									path='/register'
-									element={<p>Halaman Register</p>}
+									element={<RegisterPage />}
 								/>
 							</Routes>
 							{theme === 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
