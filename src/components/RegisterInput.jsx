@@ -26,13 +26,15 @@ const RegisterInput = ({ register }) => {
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
 
-		password === confirmPassword
-			? register({
-					name: name,
-					email: email,
-					password: password,
-			  })
-			: alert('Password Tidak Sama');
+		if (password === confirmPassword) {
+			register({
+				name: name,
+				email: email,
+				password: password,
+			});
+		} else {
+			alert('Password Tidak Sama');
+		}
 	};
 
 	return (

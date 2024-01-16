@@ -12,7 +12,7 @@ const RegisterPage = () => {
 	return (
 		<>
 			<section className='register-page'>
-				<h2>Gak perlu serius-serius ya isinya ...</h2>
+				<h2>Register</h2>
 				<RegisterInput register={onRegisterHandler} />
 				<p>
 					Kembali ke <Link to='/'>Masuk</Link>
