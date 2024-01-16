@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate, useSearchParams } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { getAllNotes } from './utils/local-data';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,15 +16,19 @@ import AddNote from './pages/AddNote';
 import Custom404 from './pages/Custom404';
 import ThemeContext from './contexts/ThemeContext';
 import RegisterPage from './pages/Auth/RegisterPage';
+import LoginPage from './pages/Auth/LoginPage';
+
+import { getUserLogged, putAccessToken } from './utils/network-data';
 
 const App = () => {
 	const navigate = useNavigate();
 
 	// state
 	const [notes, setNotes] = useState(getAllNotes);
-
-	// context
+	const [initializing, setInitializing] = useState(true);
 	const [authedUser, setAuthedUser] = useState(null);
+
+	// from context
 	const [locale, setLocale] = useState('id');
 	const [theme, setTheme] = useState('dark');
 
@@ -104,6 +108,27 @@ const App = () => {
 	const getActiveNotesData = searchNote.filter((note) => !note.archived);
 	const getArchiveNotesData = searchNote.filter((note) => note.archived);
 
+	// Login Function
+	async function onLoginSuccess({ accessToken }) {
+		putAccessToken(accessToken);
+		const { data } = await getUserLogged();
+		setAuthedUser(data);
+	}
+
+	// render awal dan render selanjutnya
+	useEffect(() => {
+		const { data } = getUserLogged();
+		setAuthedUser(data);
+		setInitializing(false);
+	});
+
+	// dirender pertama kali (didMount)
+	useEffect(() => {
+		if (initializing) {
+			return null;
+		}
+	}, []);
+
 	return (
 		<>
 			<LocaleContext.Provider value={localeContextValue}>
@@ -162,7 +187,7 @@ const App = () => {
 							<Routes>
 								<Route
 									path='/*'
-									element={<p>Halaman Login</p>}
+									element={<LoginPage loginSuccess={onLoginSuccess} />}
 								/>
 								<Route
 									path='/register'

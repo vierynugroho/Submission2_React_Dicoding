@@ -1,10 +1,14 @@
-import { React } from 'react';
+import { React, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import RegisterInput from '../../components/RegisterInput';
+import RegisterInput from '../../components/Auth/RegisterInput';
 import { register } from '../../utils/network-data';
+
+import LocaleContext from '../../contexts/LocaleContext';
+// contexts
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
+	const { locale, toggleLocale } = useContext(LocaleContext);
 
 	async function onRegisterHandler(user) {
 		const { error } = await register(user);
@@ -16,10 +20,10 @@ const RegisterPage = () => {
 	return (
 		<>
 			<section className='register-page'>
-				<h2>Register</h2>
+				<h2>{locale === 'id' ? 'Registrasi' : 'Register'}</h2>
 				<RegisterInput register={onRegisterHandler} />
 				<p>
-					Kembali ke <Link to='/'>Masuk</Link>
+					{locale === 'id' ? 'Kembali ke' : 'Back to'} <Link to='/'>{locale === 'id' ? 'Masuk' : 'Login'}</Link>
 				</p>
 			</section>
 		</>

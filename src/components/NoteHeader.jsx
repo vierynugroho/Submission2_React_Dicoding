@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { FaBox } from 'react-icons/fa';
+import { FaBox, FaRegMoon } from 'react-icons/fa';
 import { MdGTranslate, MdOutlineWbSunny } from 'react-icons/md';
 
 import { useContext } from 'react';
@@ -24,61 +24,51 @@ const NoteHeader = ({ authedUser }) => {
 					</Link>
 				</h1>
 				<nav className='navigation'>
-					{authedUser !== null ? (
-						<ul>
-							<li key={'arsip'}>
-								<Link
-									className='link'
-									to={'archives'}
-								>
-									<FaBox /> {locale === 'id' ? 'Arsip' : 'Archive'}
-								</Link>
-							</li>
-							<li
-								className='theme'
-								onClick={toggleTheme}
-							>
-								<MdOutlineWbSunny />
-							</li>
-							<li
-								className='translate'
-								onClick={toggleLocale}
-							>
-								<MdGTranslate />
-							</li>
-						</ul>
-					) : (
-						<ul>
-							<li>
-								<Link
-									to={'/login'}
-									className='link'
-								>
-									Login
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={'/register'}
-									className='link'
-								>
-									Register
-								</Link>
-							</li>
-							<li
-								className='theme'
-								onClick={toggleTheme}
-							>
-								<MdOutlineWbSunny />
-							</li>
-							<li
-								className='translate'
-								onClick={toggleLocale}
-							>
-								<MdGTranslate />
-							</li>
-						</ul>
-					)}
+					<ul>
+						{authedUser !== null ? (
+							<>
+								<li key={'arsip'}>
+									<Link
+										className='link'
+										to={'archives'}
+									>
+										<FaBox /> {locale === 'id' ? 'Arsip' : 'Archive'}
+									</Link>
+								</li>
+							</>
+						) : (
+							<>
+								<li>
+									<Link
+										to={'/login'}
+										className='link'
+									>
+										{locale === 'id' ? 'Masuk' : 'Login'}
+									</Link>
+								</li>
+								<li>
+									<Link
+										to={'/register'}
+										className='link'
+									>
+										{locale === 'id' ? 'Registrasi' : 'Register'}
+									</Link>
+								</li>
+							</>
+						)}
+						<li
+							className='theme'
+							onClick={toggleTheme}
+						>
+							{theme === 'dark' ? <MdOutlineWbSunny /> : <FaRegMoon />}
+						</li>
+						<li
+							className='translate'
+							onClick={toggleLocale}
+						>
+							<MdGTranslate />
+						</li>
+					</ul>
 				</nav>
 			</header>
 		</>
