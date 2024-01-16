@@ -1,12 +1,16 @@
 import { React } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RegisterInput from '../../components/RegisterInput';
 import { register } from '../../utils/network-data';
 
 const RegisterPage = () => {
+	const navigate = useNavigate();
+
 	async function onRegisterHandler(user) {
-		await register(user);
-		console.log(user);
+		const { error } = await register(user);
+		if (!error) {
+			navigate('/');
+		}
 	}
 
 	return (
