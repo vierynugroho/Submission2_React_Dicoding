@@ -227,8 +227,27 @@ main {
 }
 
 .register-page,
-.login-page {
+.login-page,
+.error-page {
   margin: 32px;
+}
+
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error-page button {
+  padding: 10px 12px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.error-page span {
+  color: red;
+  font-weight: bold;
 }
 
 .input-login,
