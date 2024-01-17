@@ -34,7 +34,7 @@ const App = () => {
 
 	// params
 	const [searchParams, setSearchParams] = useSearchParams();
-	const title = searchParams.get('title');
+	const title = searchParams.get('title') || '';
 
 	// toggle lang
 	const toggleLocale = () => {
@@ -64,22 +64,6 @@ const App = () => {
 		};
 	}, [theme]);
 
-	// Add Note
-	function addNote({ title, body }) {
-		const newNotes = [
-			...notes,
-			{
-				id: `notes-${+new Date()}`,
-				title: title || '(untitled)',
-				body: body,
-				createdAt: new Date().toISOString(),
-				archived: false,
-			},
-		];
-		setNotes(newNotes);
-		navigate('/');
-	}
-
 	// Delete Note
 	const deleteNote = (id) => {
 		const updatedNotes = notes.filter((note) => note.id !== id);
@@ -105,22 +89,29 @@ const App = () => {
 
 	// Archive & UnArchive
 	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
-	const getActiveNotesData = searchNote.filter((note) => !note.archived);
-	const getArchiveNotesData = searchNote.filter((note) => note.archived);
 
 	// Login Function
-	async function onLoginSuccess({ accessToken }) {
+	const onLoginSuccess = async ({ accessToken }) => {
 		putAccessToken(accessToken);
 		const { data } = await getUserLogged();
 		setAuthedUser(data);
-	}
+	};
 
 	// render awal dan render selanjutnya
 	useEffect(() => {
-		const { data } = getUserLogged();
-		setAuthedUser(data);
-		setInitializing(false);
-	});
+		const fetchUser = async () => {
+			const { data } = await getUserLogged();
+			setAuthedUser(data);
+			setInitializing(false);
+		};
+		fetchUser();
+	}, []);
+
+	// logout function
+	const onLogout = () => {
+		setAuthedUser(null);
+		putAccessToken('');
+	};
 
 	if (initializing) {
 		return null;
@@ -130,70 +121,70 @@ const App = () => {
 		<>
 			<LocaleContext.Provider value={localeContextValue}>
 				<ThemeContext.Provider value={ThemeContextValue}>
-					{authedUser !== null ? (
-						<div className='app-container'>
-							<ToastContainer autoClose={300} />
-							<NoteHeader authedUser={authedUser} />
-							<Routes>
-								<Route
-									path='/'
-									element={
-										<ActiveNotes
-											notes={getActiveNotesData}
-											onSearch={changeSearchParams}
-											title={title}
-										/>
-									}
-								/>
-								<Route
-									path='/archives'
-									element={
-										<ArchiveNotes
-											notes={getArchiveNotesData}
-											onSearch={changeSearchParams}
-											title={title}
-										/>
-									}
-								/>
-								<Route
-									path='/notes/:id'
-									element={
-										<DetailNote
-											notes={notes}
-											onDelete={deleteNote}
-											onArchive={archiveNote}
-											onUnArchive={unarchiveNote}
-										/>
-									}
-								/>
-								<Route
-									path='/notes/new'
-									element={<AddNote onAdd={addNote} />}
-								/>
-								{/* 404 NotFound Page */}
-								<Route
-									path='*'
-									element={<Custom404 />}
-								/>
-							</Routes>
-						</div>
-					) : (
-						<div className='app-container'>
-							<ToastContainer autoClose={300} />
-							<NoteHeader authedUser={authedUser} />
-							<Routes>
-								<Route
-									path='/*'
-									element={<LoginPage loginSuccess={onLoginSuccess} />}
-								/>
-								<Route
-									path='/register'
-									element={<RegisterPage />}
-								/>
-							</Routes>
-							{theme === 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-						</div>
-					)}
+					<div className='app-container'>
+						<ToastContainer autoClose={300} />
+						<NoteHeader
+							authedUser={authedUser}
+							onLogout={onLogout}
+						/>
+						<Routes>
+							{authedUser === null ? (
+								<>
+									<Route
+										path='/*'
+										element={<LoginPage loginSuccess={onLoginSuccess} />}
+									/>
+									<Route
+										path='/register'
+										element={<RegisterPage />}
+									/>
+								</>
+							) : (
+								<>
+									<Route
+										path='/'
+										element={
+											<ActiveNotes
+												onSearch={changeSearchParams}
+												title={title}
+											/>
+										}
+									/>
+									<Route
+										path='/archives'
+										element={
+											<ArchiveNotes
+												onSearch={changeSearchParams}
+												title={title}
+											/>
+										}
+									/>
+									<Route
+										path='/notes/:id'
+										element={
+											<DetailNote
+												notes={notes}
+												onDelete={deleteNote}
+												onArchive={archiveNote}
+												onUnArchive={unarchiveNote}
+											/>
+										}
+									/>
+									<Route
+										path='/notes/new'
+										element={<AddNote />}
+									/>
+								</>
+							)}
+
+							{/* 404 NotFound Page */}
+							<Route
+								path='*'
+								element={<Custom404 />}
+							/>
+						</Routes>
+						{theme === 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+					</div>
 				</ThemeContext.Provider>
 			</LocaleContext.Provider>
 		</>

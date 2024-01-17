@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 
 import { FaBox, FaRegMoon } from 'react-icons/fa';
 import { MdGTranslate, MdOutlineWbSunny } from 'react-icons/md';
+import { CiLogout } from 'react-icons/ci';
 
 import { useContext } from 'react';
 
 import LocaleContext from '../contexts/LocaleContext';
 import ThemeContext from './../contexts/ThemeContext';
 
-const NoteHeader = ({ authedUser }) => {
+const NoteHeader = ({ authedUser, onLogout }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
 	const { theme, toggleTheme } = useContext(ThemeContext);
 
@@ -27,6 +28,11 @@ const NoteHeader = ({ authedUser }) => {
 					<ul>
 						{authedUser !== null ? (
 							<>
+								<li key={'logout'}>
+									<button onClick={onLogout}>
+										<CiLogout /> {locale === 'id' ? 'Keluar' : 'Logout'}
+									</button>
+								</li>
 								<li key={'arsip'}>
 									<Link
 										className='link'

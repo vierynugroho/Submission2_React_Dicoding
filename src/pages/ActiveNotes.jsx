@@ -3,8 +3,21 @@ import SearchBar from '../components/SearchBar';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import AddButton from '../components/AddButton';
+import { useEffect, useState } from 'react';
+import { getActiveNotes } from '../utils/network-data';
 
-const ActiveNotes = ({ notes, onSearch, title }) => {
+const ActiveNotes = ({ onSearch, title }) => {
+	const [notes, setNotes] = useState([]);
+
+	// render awal dan render selanjutnya
+	useEffect(() => {
+		const fetchNotes = async () => {
+			const data = await getActiveNotes();
+			setNotes(data.data);
+		};
+		fetchNotes();
+	}, []);
+
 	return (
 		<>
 			<main>

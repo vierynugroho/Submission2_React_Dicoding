@@ -1,8 +1,20 @@
 import SearchBar from '../components/SearchBar';
 import NoteList from '../components/NoteList';
 import { PropTypes } from 'prop-types';
+import { getArchivedNotes } from '../utils/network-data';
+import { useEffect, useState } from 'react';
 
-const ArchiveNotes = ({ notes, onSearch, title }) => {
+const ArchiveNotes = ({ onSearch, title }) => {
+	const [notes, setNotes] = useState([]);
+
+	// render awal dan render selanjutnya
+	useEffect(() => {
+		const fetchNotes = async () => {
+			const data = await getArchivedNotes();
+			setNotes(data.data);
+		};
+		fetchNotes();
+	}, []);
 	return (
 		<>
 			<main>
@@ -26,7 +38,6 @@ const ArchiveNotes = ({ notes, onSearch, title }) => {
 };
 
 ArchiveNotes.propTypes = {
-	notes: PropTypes.arrayOf(PropTypes.object).isRequired,
 	onSearch: PropTypes.func.isRequired,
 	title: PropTypes.string,
 };
