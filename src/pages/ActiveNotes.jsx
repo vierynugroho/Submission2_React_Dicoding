@@ -12,8 +12,8 @@ const ActiveNotes = ({ onSearch, title }) => {
 	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchNotes = async () => {
-			const data = await getActiveNotes();
-			setNotes(data.data);
+			const { data } = await getActiveNotes();
+			setNotes(data);
 		};
 		fetchNotes();
 	}, []);

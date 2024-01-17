@@ -10,8 +10,8 @@ const ArchiveNotes = ({ onSearch, title }) => {
 	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchNotes = async () => {
-			const data = await getArchivedNotes();
-			setNotes(data.data);
+			const { data } = await getArchivedNotes();
+			setNotes(data);
 		};
 		fetchNotes();
 	}, []);
