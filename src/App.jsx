@@ -36,6 +36,13 @@ const App = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const title = searchParams.get('title') || '';
 
+	const changeSearchParams = (keyword) => {
+		setSearchParams({ title: keyword });
+	};
+
+	// Search Note
+	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
+
 	// toggle lang
 	const toggleLocale = () => {
 		setLocale((prevLocale) => {
@@ -64,32 +71,6 @@ const App = () => {
 		};
 	}, [theme]);
 
-	// Delete Note
-	const deleteNote = (id) => {
-		const updatedNotes = notes.filter((note) => note.id !== id);
-		setNotes(updatedNotes);
-		toast.success('Note Dihapus!');
-	};
-
-	const archiveNote = (id) => {
-		const updatedNotes = notes.map((note) => (note.id === id ? { ...note, archived: true } : note));
-		setNotes(updatedNotes);
-		toast.success('Note Diarsipkan!');
-	};
-
-	const unarchiveNote = (id) => {
-		const updatedNotes = notes.map((note) => (note.id === id ? { ...note, archived: false } : note));
-		setNotes(updatedNotes);
-		toast.success('Note Diaktifkan!');
-	};
-
-	const changeSearchParams = (keyword) => {
-		setSearchParams({ title: keyword });
-	};
-
-	// Archive & UnArchive
-	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
-
 	// Login Function
 	const onLoginSuccess = async ({ accessToken }) => {
 		putAccessToken(accessToken);
@@ -111,6 +92,7 @@ const App = () => {
 	const onLogout = () => {
 		setAuthedUser(null);
 		putAccessToken('');
+		toast.success('Logout Sukses!');
 	};
 
 	if (initializing) {
@@ -161,14 +143,7 @@ const App = () => {
 									/>
 									<Route
 										path='/notes/:id'
-										element={
-											<DetailNote
-												notes={notes}
-												onDelete={deleteNote}
-												onArchive={archiveNote}
-												onUnArchive={unarchiveNote}
-											/>
-										}
+										element={<DetailNote />}
 									/>
 									<Route
 										path='/notes/new'

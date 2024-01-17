@@ -26,13 +26,20 @@ const NoteHeader = ({ authedUser, onLogout }) => {
 				</h1>
 				<nav className='navigation'>
 					<ul>
+						<li
+							className='theme'
+							onClick={toggleTheme}
+						>
+							{theme === 'dark' ? <MdOutlineWbSunny /> : <FaRegMoon />}
+						</li>
+						<li
+							className='translate'
+							onClick={toggleLocale}
+						>
+							<MdGTranslate />
+						</li>
 						{authedUser !== null ? (
 							<>
-								<li key={'logout'}>
-									<button onClick={onLogout}>
-										<CiLogout /> {locale === 'id' ? 'Keluar' : 'Logout'}
-									</button>
-								</li>
 								<li key={'arsip'}>
 									<Link
 										className='link'
@@ -40,6 +47,12 @@ const NoteHeader = ({ authedUser, onLogout }) => {
 									>
 										<FaBox /> {locale === 'id' ? 'Arsip' : 'Archive'}
 									</Link>
+								</li>
+								<li
+									key={'logout'}
+									onClick={onLogout}
+								>
+									<CiLogout /> {authedUser.name}
 								</li>
 							</>
 						) : (
@@ -62,18 +75,6 @@ const NoteHeader = ({ authedUser, onLogout }) => {
 								</li>
 							</>
 						)}
-						<li
-							className='theme'
-							onClick={toggleTheme}
-						>
-							{theme === 'dark' ? <MdOutlineWbSunny /> : <FaRegMoon />}
-						</li>
-						<li
-							className='translate'
-							onClick={toggleLocale}
-						>
-							<MdGTranslate />
-						</li>
 					</ul>
 				</nav>
 			</header>

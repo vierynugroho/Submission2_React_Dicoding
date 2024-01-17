@@ -16,7 +16,9 @@ const ActiveNotes = ({ onSearch, title }) => {
 			setNotes(data);
 		};
 		fetchNotes();
-	}, []);
+	}, [notes]);
+
+	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
 
 	return (
 		<>
@@ -28,8 +30,8 @@ const ActiveNotes = ({ onSearch, title }) => {
 						title={title}
 					/>
 					{/* Notes List */}
-					{notes.length > 0 ? (
-						<NoteList notes={notes} />
+					{searchNote.length > 0 ? (
+						<NoteList notes={searchNote} />
 					) : (
 						<section className='notes-list-empty'>
 							<p className='notes-list__empty'>Tidak ada catatan</p>

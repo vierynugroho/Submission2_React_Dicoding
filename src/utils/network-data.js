@@ -1,5 +1,6 @@
-const BASE_URL = 'https://notes-api.dicoding.dev/v1';
+import { toast } from 'react-toastify';
 
+const BASE_URL = 'https://notes-api.dicoding.dev/v1';
 function getAccessToken() {
 	return localStorage.getItem('accessToken');
 }
@@ -34,6 +35,7 @@ async function login({ email, password }) {
 		return { error: true, data: null };
 	}
 
+	toast.success('Selamat Datang!');
 	return { error: false, data: responseJson.data };
 }
 
@@ -52,7 +54,7 @@ async function register({ name, email, password }) {
 		alert(responseJson.message);
 		return { error: true };
 	}
-
+	toast.success('Registrasi Sukses!');
 	return { error: false };
 }
 
@@ -82,6 +84,7 @@ async function addNote({ title, body }) {
 		return { error: true, data: null };
 	}
 
+	toast.success('Note Ditambahkan!');
 	return { error: false, data: responseJson.data };
 }
 
@@ -129,6 +132,7 @@ async function archiveNote(id) {
 		return { error: true, data: null };
 	}
 
+	toast.success('Note Diarsipkan!');
 	return { error: false, data: responseJson.data };
 }
 
@@ -143,6 +147,7 @@ async function unarchiveNote(id) {
 		return { error: true, data: null };
 	}
 
+	toast.success('Note Diaktifkan!');
 	return { error: false, data: responseJson.data };
 }
 
@@ -157,6 +162,7 @@ async function deleteNote(id) {
 		return { error: true, data: null };
 	}
 
+	toast.success('Note Dihapus!');
 	return { error: false, data: responseJson.data };
 }
 

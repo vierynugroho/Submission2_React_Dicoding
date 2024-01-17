@@ -14,7 +14,10 @@ const ArchiveNotes = ({ onSearch, title }) => {
 			setNotes(data);
 		};
 		fetchNotes();
-	}, []);
+	}, [notes]);
+
+	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
+
 	return (
 		<>
 			<main>
@@ -24,8 +27,8 @@ const ArchiveNotes = ({ onSearch, title }) => {
 						onSearch={onSearch}
 						title={title}
 					/>
-					{notes.length > 0 ? (
-						<NoteList notes={notes} />
+					{searchNote.length > 0 ? (
+						<NoteList notes={searchNote} />
 					) : (
 						<section className='notes-list-empty'>
 							<p className='notes-list__empty'>Arsip Kosong</p>

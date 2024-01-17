@@ -7,7 +7,7 @@ import UnArchiveButton from '../components/UnArchiveButton';
 import { getNote } from '../utils/network-data';
 import { useEffect, useState } from 'react';
 
-const DetailNote = ({ onDelete, onArchive, onUnArchive }) => {
+const DetailNote = () => {
 	const { id } = useParams();
 	const [note, setNote] = useState([]);
 
@@ -29,21 +29,8 @@ const DetailNote = ({ onDelete, onArchive, onUnArchive }) => {
 					<p className='detail-page__createdAt'>{showFormattedDate(note.createdAt)}</p>
 					<div className='detail-page__body'>{note.body}</div>
 					<div className='detail-page__action'>
-						{note.archived === false ? (
-							<ArchiveButton
-								onArchive={onArchive}
-								noteId={note.id}
-							/>
-						) : (
-							<UnArchiveButton
-								onUnArchive={onUnArchive}
-								noteId={note.id}
-							/>
-						)}
-						<DeleteButton
-							onDelete={onDelete}
-							noteId={note.id}
-						/>
+						{note.archived === false ? <ArchiveButton noteId={note.id} /> : <UnArchiveButton noteId={note.id} />}
+						<DeleteButton noteId={note.id} />
 					</div>
 				</section>
 			</main>
@@ -52,10 +39,4 @@ const DetailNote = ({ onDelete, onArchive, onUnArchive }) => {
 	);
 };
 
-DetailNote.propTypes = {
-	notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-	onDelete: PropTypes.func.isRequired,
-	onArchive: PropTypes.func.isRequired,
-	onUnArchive: PropTypes.func.isRequired,
-};
 export default DetailNote;
