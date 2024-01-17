@@ -40,9 +40,6 @@ const App = () => {
 		setSearchParams({ title: keyword });
 	};
 
-	// Search Note
-	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
-
 	// toggle lang
 	const toggleLocale = () => {
 		setLocale((prevLocale) => {
