@@ -100,7 +100,10 @@ const App = () => {
 		<>
 			<LocaleContext.Provider value={localeContextValue}>
 				<ThemeContext.Provider value={ThemeContextValue}>
-					<div className='app-container'>
+					<div
+						className='app-container'
+						data-theme={theme}
+					>
 						<ToastContainer autoClose={300} />
 						<NoteHeader
 							authedUser={authedUser}
@@ -155,7 +158,6 @@ const App = () => {
 								element={<Custom404 />}
 							/>
 						</Routes>
-						{theme === 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
 					</div>
 				</ThemeContext.Provider>
 			</LocaleContext.Provider>
