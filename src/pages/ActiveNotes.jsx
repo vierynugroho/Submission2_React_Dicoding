@@ -3,10 +3,16 @@ import SearchBar from '../components/SearchBar';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import AddButton from '../components/AddButton';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getActiveNotes } from '../utils/network-data';
 
+import LocaleContext from '../contexts/LocaleContext';
+import ThemeContext from './../contexts/ThemeContext';
+
 const ActiveNotes = ({ onSearch, title }) => {
+	const { locale, toggleLocale } = useContext(LocaleContext);
+	const { theme, toggleTheme } = useContext(ThemeContext);
+
 	const [notes, setNotes] = useState([]);
 
 	// render awal dan render selanjutnya
@@ -24,7 +30,7 @@ const ActiveNotes = ({ onSearch, title }) => {
 		<>
 			<main>
 				<section className='homepage'>
-					<h2>Catatan Aktif</h2>
+					<h2>{locale === 'id' ? 'Catatan Aktif' : 'Active Notes'}</h2>
 					<SearchBar
 						onSearch={onSearch}
 						title={title}
@@ -34,7 +40,7 @@ const ActiveNotes = ({ onSearch, title }) => {
 						<NoteList notes={searchNote} />
 					) : (
 						<section className='notes-list-empty'>
-							<p className='notes-list__empty'>Tidak ada catatan</p>
+							<p className='notes-list__empty'>{locale === 'id' ? 'Tidak Ada Catatan' : 'Notes Empty'}</p>
 						</section>
 					)}
 					{/* Notes List */}

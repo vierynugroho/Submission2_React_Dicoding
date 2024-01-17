@@ -2,9 +2,15 @@ import SearchBar from '../components/SearchBar';
 import NoteList from '../components/NoteList';
 import { PropTypes } from 'prop-types';
 import { getArchivedNotes } from '../utils/network-data';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+
+import LocaleContext from '../contexts/LocaleContext';
+import ThemeContext from './../contexts/ThemeContext';
 
 const ArchiveNotes = ({ onSearch, title }) => {
+	const { locale, toggleLocale } = useContext(LocaleContext);
+	const { theme, toggleTheme } = useContext(ThemeContext);
+
 	const [notes, setNotes] = useState([]);
 
 	// render awal dan render selanjutnya
@@ -22,7 +28,7 @@ const ArchiveNotes = ({ onSearch, title }) => {
 		<>
 			<main>
 				<section className='archives-page'>
-					<h2>Catatan Arsip</h2>
+					<h2>{locale === 'id' ? 'Catatan Arsip' : 'Archive Notes'}</h2>
 					<SearchBar
 						onSearch={onSearch}
 						title={title}
