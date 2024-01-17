@@ -122,12 +122,9 @@ const App = () => {
 		setInitializing(false);
 	});
 
-	// dirender pertama kali (didMount)
-	useEffect(() => {
-		if (initializing) {
-			return null;
-		}
-	}, []);
+	if (initializing) {
+		return null;
+	}
 
 	return (
 		<>
