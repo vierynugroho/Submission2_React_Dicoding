@@ -46,8 +46,6 @@ const App = () => {
 		});
 	};
 
-	console.log(authedUser);
-
 	const localeContextValue = useMemo(() => {
 		return {
 			locale,
