@@ -11,6 +11,7 @@ import LocaleContext from '../contexts/LocaleContext';
 const ActiveNotes = ({ onSearch, title }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
 
+	const [loading, setLoading] = useState(true);
 	const [notes, setNotes] = useState([]);
 
 	// render awal dan render selanjutnya
@@ -22,36 +23,51 @@ const ActiveNotes = ({ onSearch, title }) => {
 		fetchNotes();
 	}, [notes]);
 
+	// for loading
+	useEffect(() => {
+		const fetchNotes = async () => {
+			setLoading(true);
+			const { data } = await getActiveNotes(locale);
+			setNotes(data);
+			setLoading(false);
+		};
+		fetchNotes();
+	}, []);
+
 	const searchNote = !title ? notes : notes.filter((note) => note.title.toLowerCase().match(title));
 
 	return (
 		<>
-			<main>
-				<section className='homepage'>
-					<h2>{locale === 'id' ? 'Catatan Aktif' : 'Active Notes'}</h2>
-					<SearchBar
-						onSearch={onSearch}
-						title={title}
-					/>
-					{/* Notes List */}
-					{searchNote.length > 0 ? (
-						<NoteList notes={searchNote} />
-					) : (
-						<section className='notes-list-empty'>
-							<p className='notes-list__empty'>{locale === 'id' ? 'Tidak Ada Catatan' : 'Notes Empty'}</p>
-						</section>
-					)}
-					{/* Notes List */}
+			{loading ? (
+				<p>Loading...</p>
+			) : (
+				<main>
+					<section className='homepage'>
+						<h2>{locale === 'id' ? 'Catatan Aktif' : 'Active Notes'}</h2>
+						<SearchBar
+							onSearch={onSearch}
+							title={title}
+						/>
+						{/* Notes List */}
+						{searchNote.length > 0 ? (
+							<NoteList notes={searchNote} />
+						) : (
+							<section className='notes-list-empty'>
+								<p className='notes-list__empty'>{locale === 'id' ? 'Tidak Ada Catatan' : 'Notes Empty'}</p>
+							</section>
+						)}
+						{/* Notes List */}
 
-					{/* homepage__action */}
-					<Link to={'/notes/new'}>
-						<div className='homepage__action'>
-							<AddButton />
-						</div>
-					</Link>
-					{/* homepage__action */}
-				</section>
-			</main>
+						{/* homepage__action */}
+						<Link to={'/notes/new'}>
+							<div className='homepage__action'>
+								<AddButton />
+							</div>
+						</Link>
+						{/* homepage__action */}
+					</section>
+				</main>
+			)}
 		</>
 	);
 };
