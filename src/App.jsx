@@ -28,8 +28,8 @@ const App = () => {
 	const [authedUser, setAuthedUser] = useState(null);
 
 	// from context
-	const [locale, setLocale] = useState(localStorage.getItem('locale'));
-	const [theme, setTheme] = useState(localStorage.getItem('theme'));
+	const [locale, setLocale] = useState(localStorage.getItem('locale') || 'id');
+	const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
 	// params
 	const [searchParams, setSearchParams] = useSearchParams();
