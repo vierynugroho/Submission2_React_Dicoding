@@ -12,7 +12,6 @@ const ArchiveNotes = ({ onSearch, title }) => {
 	const [loading, setLoading] = useState(true);
 	const [notes, setNotes] = useState([]);
 
-	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchNotes = async () => {
 			const { data } = await getArchivedNotes(locale);

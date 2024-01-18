@@ -11,7 +11,6 @@ const DetailNote = () => {
 	const [note, setNote] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchNote = async () => {
 			setLoading(true);

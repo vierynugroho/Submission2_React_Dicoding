@@ -1,10 +1,10 @@
+import { useContext } from 'react';
 import { PropTypes } from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { MdUnarchive } from 'react-icons/md';
 import { unarchiveNote } from '../utils/network-data';
 
 import LocaleContext from '../contexts/LocaleContext';
-import { useContext } from 'react';
 
 const UnArchiveButton = ({ noteId }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);

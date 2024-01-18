@@ -1,11 +1,9 @@
 import { PropTypes } from 'prop-types';
 import LocaleContext from '../contexts/LocaleContext';
-import ThemeContext from './../contexts/ThemeContext';
 import { useContext } from 'react';
 
 const SearchBar = ({ onSearch, title }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
-	const { theme, toggleTheme } = useContext(ThemeContext);
 
 	return (
 		<>
