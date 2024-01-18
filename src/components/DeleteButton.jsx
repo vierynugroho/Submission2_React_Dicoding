@@ -27,7 +27,6 @@ const DeleteButton = ({ noteId }) => {
 };
 
 DeleteButton.proptypes = {
-	onDelete: PropTypes.func.isRequired,
 	noteId: PropTypes.string.isRequired,
 };
 

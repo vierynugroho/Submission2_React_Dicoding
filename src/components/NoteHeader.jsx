@@ -8,6 +8,7 @@ import { useContext } from 'react';
 
 import LocaleContext from '../contexts/LocaleContext';
 import ThemeContext from './../contexts/ThemeContext';
+import { PropTypes } from 'prop-types';
 
 const NoteHeader = ({ authedUser, onLogout }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
@@ -104,6 +105,11 @@ const NoteHeader = ({ authedUser, onLogout }) => {
 			</header>
 		</>
 	);
+};
+
+NoteHeader.proptypes = {
+	authedUser: PropTypes.string,
+	onLogout: PropTypes.func.isRequired,
 };
 
 export default NoteHeader;

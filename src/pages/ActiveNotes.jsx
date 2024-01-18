@@ -72,7 +72,6 @@ const ActiveNotes = ({ onSearch, title }) => {
 };
 
 ActiveNotes.propTypes = {
-	notes: PropTypes.arrayOf(PropTypes.object),
 	onSearch: PropTypes.func.isRequired,
 	title: PropTypes.string,
 };

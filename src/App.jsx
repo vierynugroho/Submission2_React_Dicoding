@@ -21,8 +21,6 @@ import LoginPage from './pages/Auth/LoginPage';
 import { getUserLogged, putAccessToken } from './utils/network-data';
 
 const App = () => {
-	const navigate = useNavigate();
-
 	// state
 	const [initializing, setInitializing] = useState(true);
 	const [authedUser, setAuthedUser] = useState(null);
@@ -47,6 +45,8 @@ const App = () => {
 			return newLocale;
 		});
 	};
+
+	console.log(authedUser);
 
 	const localeContextValue = useMemo(() => {
 		return {

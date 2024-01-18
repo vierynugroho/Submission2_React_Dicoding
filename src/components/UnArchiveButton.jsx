@@ -27,7 +27,6 @@ const UnArchiveButton = ({ noteId }) => {
 };
 
 UnArchiveButton.proptypes = {
-	onUnArchive: PropTypes.func.isRequired,
 	noteId: PropTypes.string.isRequired,
 };
 
