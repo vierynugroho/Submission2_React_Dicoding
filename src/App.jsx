@@ -28,8 +28,8 @@ const App = () => {
 	const [authedUser, setAuthedUser] = useState(null);
 
 	// from context
-	const [locale, setLocale] = useState('id');
-	const [theme, setTheme] = useState('dark');
+	const [locale, setLocale] = useState(localStorage.getItem('locale'));
+	const [theme, setTheme] = useState(localStorage.getItem('theme'));
 
 	// params
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -42,7 +42,9 @@ const App = () => {
 	// toggle lang
 	const toggleLocale = () => {
 		setLocale((prevLocale) => {
-			return prevLocale === 'id' ? 'en' : 'id';
+			const newLocale = prevLocale === 'id' ? 'en' : 'id';
+			localStorage.setItem('locale', newLocale);
+			return newLocale;
 		});
 	};
 
@@ -56,7 +58,9 @@ const App = () => {
 	// toggle theme
 	const toggleTheme = () => {
 		setTheme((prevTheme) => {
-			return prevTheme === 'dark' ? 'light' : 'dark';
+			const newTheme = prevTheme === 'dark' ? 'light' : 'dark';
+			localStorage.setItem('theme', newTheme);
+			return newTheme;
 		});
 	};
 
