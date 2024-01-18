@@ -11,7 +11,7 @@ const LoginPage = ({ loginSuccess }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
 
 	async function onLogin({ email, password }) {
-		const { error, data } = await login({ email, password });
+		const { error, data } = await login({ email, password, locale });
 
 		if (!error) {
 			loginSuccess(data);

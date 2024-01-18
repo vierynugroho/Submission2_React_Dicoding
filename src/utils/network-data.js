@@ -19,7 +19,7 @@ async function fetchWithToken(url, options = {}) {
 	});
 }
 
-async function login({ email, password }) {
+async function login({ email, password, locale }) {
 	const response = await fetch(`${BASE_URL}/login`, {
 		method: 'POST',
 		headers: {
@@ -31,15 +31,15 @@ async function login({ email, password }) {
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
-		alert(responseJson.message);
+		toast.error(responseJson.message);
 		return { error: true, data: null };
 	}
 
-	toast.success('Selamat Datang!');
+	toast.success(locale === 'id' ? 'Selamat Datang!' : 'Welcome!');
 	return { error: false, data: responseJson.data };
 }
 
-async function register({ name, email, password }) {
+async function register({ name, email, password, locale }) {
 	const response = await fetch(`${BASE_URL}/register`, {
 		method: 'POST',
 		headers: {
@@ -51,10 +51,10 @@ async function register({ name, email, password }) {
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
-		alert(responseJson.message);
+		toast.error(responseJson.message);
 		return { error: true };
 	}
-	toast.success('Registrasi Sukses!');
+	toast.success(locale === 'id' ? 'Registrasi Sukses!' : 'Registration Success!');
 	return { error: false };
 }
 
@@ -69,7 +69,7 @@ async function getUserLogged() {
 	return { error: false, data: responseJson.data };
 }
 
-async function addNote({ title, body }) {
+async function addNote({ title, body, locale }) {
 	const response = await fetchWithToken(`${BASE_URL}/notes`, {
 		method: 'POST',
 		headers: {
@@ -81,47 +81,51 @@ async function addNote({ title, body }) {
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Note Gagal Ditambahkan!' : 'Failed Added Note!');
 		return { error: true, data: null };
 	}
 
-	toast.success('Note Ditambahkan!');
+	toast.success(locale === 'id' ? 'Note Ditambahkan!' : 'Note Added!');
 	return { error: false, data: responseJson.data };
 }
 
-async function getActiveNotes() {
+async function getActiveNotes({ locale }) {
 	const response = await fetchWithToken(`${BASE_URL}/notes`);
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Gagal Mendapatkan Data!' : 'Failed Get Data!');
 		return { error: true, data: null };
 	}
 
 	return { error: false, data: responseJson.data };
 }
 
-async function getArchivedNotes() {
+async function getArchivedNotes({ locale }) {
 	const response = await fetchWithToken(`${BASE_URL}/notes/archived`);
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Gagal Mendapatkan Data!' : 'Failed Get Data!');
 		return { error: true, data: null };
 	}
 
 	return { error: false, data: responseJson.data };
 }
 
-async function getNote(id) {
+async function getNote(id, locale) {
 	const response = await fetchWithToken(`${BASE_URL}/notes/${id}`);
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Gagal Mendapatkan Detail Data!' : 'Failed Get Detail Data!');
 		return { error: true, data: null };
 	}
 
 	return { error: false, data: responseJson.data };
 }
 
-async function archiveNote(id) {
+async function archiveNote(id, locale) {
 	const response = await fetchWithToken(`${BASE_URL}/notes/${id}/archive`, {
 		method: 'POST',
 	});
@@ -129,14 +133,15 @@ async function archiveNote(id) {
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Gagal Mengarsipkan Note!' : 'Failed Archive Note!');
 		return { error: true, data: null };
 	}
 
-	toast.success('Note Diarsipkan!');
+	toast.success(locale === 'id' ? 'Note Diarsipkan!' : 'Note Archived!');
 	return { error: false, data: responseJson.data };
 }
 
-async function unarchiveNote(id) {
+async function unarchiveNote(id, locale) {
 	const response = await fetchWithToken(`${BASE_URL}/notes/${id}/unarchive`, {
 		method: 'POST',
 	});
@@ -144,14 +149,15 @@ async function unarchiveNote(id) {
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Gagal Mengaktifkan Note!' : 'Failed Actived Note!');
 		return { error: true, data: null };
 	}
 
-	toast.success('Note Diaktifkan!');
+	toast.success(locale === 'id' ? 'Note Diaktifkan!' : 'Note Actived!');
 	return { error: false, data: responseJson.data };
 }
 
-async function deleteNote(id) {
+async function deleteNote(id, locale) {
 	const response = await fetchWithToken(`${BASE_URL}/notes/${id}`, {
 		method: 'DELETE',
 	});
@@ -159,10 +165,11 @@ async function deleteNote(id) {
 	const responseJson = await response.json();
 
 	if (responseJson.status !== 'success') {
+		toast.error(locale === 'id' ? 'Gagal Menghapus Data!' : 'Failed Deleted Note!');
 		return { error: true, data: null };
 	}
 
-	toast.success('Note Dihapus!');
+	toast.success(locale === 'id' ? 'Note Dihapus!' : 'Note Deleted!');
 	return { error: false, data: responseJson.data };
 }
 

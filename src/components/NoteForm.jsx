@@ -1,9 +1,13 @@
 import parser from 'html-react-parser';
 import { PropTypes } from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 
+import LocaleContext from '../contexts/LocaleContext';
+
 const NoteForm = ({ onAdd }) => {
+	const { locale, toggleLocale } = useContext(LocaleContext);
+
 	const [newNote, setNewNote] = useState({
 		title: '',
 		body: '',
@@ -36,7 +40,7 @@ const NoteForm = ({ onAdd }) => {
 						id='title'
 						type='text'
 						className='add-new-page__input__title'
-						placeholder='Tulis Judul Catatan Anda Disini...'
+						placeholder={locale === 'id' ? 'Judul' : 'Title'}
 						value={newNote.title}
 						onChange={onTitleChange}
 						required
@@ -45,7 +49,7 @@ const NoteForm = ({ onAdd }) => {
 						id='body'
 						className='add-new-page__input__body'
 						contentEditable='true'
-						data-placeholder='Tulis Isi Catatan Anda Disini...'
+						data-placeholder={locale == 'id' ? 'Tulis Isi Catatan Anda Disini...' : 'Write the contents of your note here...'}
 						onInput={onBodyChange}
 						value={newNote.body}
 						required
@@ -54,7 +58,7 @@ const NoteForm = ({ onAdd }) => {
 						<button
 							className='action'
 							type='submit'
-							title='Tambah Catatan'
+							title={locale === 'id' ? 'Tambah Catatan' : 'Add Note'}
 						>
 							<FaCheck />
 						</button>

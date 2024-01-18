@@ -1,11 +1,10 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { showFormattedDate } from '../utils';
-import { PropTypes } from 'prop-types';
 import DeleteButton from './../components/DeleteButton';
 import ArchiveButton from '../components/ArchiveButton';
 import UnArchiveButton from '../components/UnArchiveButton';
 import { getNote } from '../utils/network-data';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 const DetailNote = () => {
 	const { id } = useParams();

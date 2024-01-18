@@ -24,7 +24,6 @@ const App = () => {
 	const navigate = useNavigate();
 
 	// state
-	const [notes, setNotes] = useState(getAllNotes);
 	const [initializing, setInitializing] = useState(true);
 	const [authedUser, setAuthedUser] = useState(null);
 
@@ -89,7 +88,7 @@ const App = () => {
 	const onLogout = () => {
 		setAuthedUser(null);
 		putAccessToken('');
-		toast.success('Logout Sukses!');
+		toast.success(locale === 'id' ? 'Logout Sukses' : 'Logout Success');
 	};
 
 	if (initializing) {

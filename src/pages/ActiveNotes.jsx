@@ -7,18 +7,16 @@ import { useEffect, useState, useContext } from 'react';
 import { getActiveNotes } from '../utils/network-data';
 
 import LocaleContext from '../contexts/LocaleContext';
-import ThemeContext from './../contexts/ThemeContext';
 
 const ActiveNotes = ({ onSearch, title }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
-	const { theme, toggleTheme } = useContext(ThemeContext);
 
 	const [notes, setNotes] = useState([]);
 
 	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchNotes = async () => {
-			const { data } = await getActiveNotes();
+			const { data } = await getActiveNotes(locale);
 			setNotes(data);
 		};
 		fetchNotes();

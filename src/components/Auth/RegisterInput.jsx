@@ -1,33 +1,19 @@
-import { react, useContext, useState } from 'react';
+import { useContext } from 'react';
 import { PropTypes } from 'prop-types';
 
 // context
 import LocaleContext from './../../contexts/LocaleContext';
+import useInput from '../../hooks/useInput';
+import { toast } from 'react-toastify';
 
 const RegisterInput = ({ register }) => {
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
+	const [name, onNameChange] = useInput('');
+	const [email, onEmailChange] = useInput('');
+	const [password, onPasswordChange] = useInput('');
+	const [confirmPassword, onConfirmPasswordChange] = useInput('');
 
 	// contexts
 	const { locale, toggleLocale } = useContext(LocaleContext);
-
-	const onNameChange = (e) => {
-		setName(e.target.value);
-	};
-
-	const onEmailChange = (e) => {
-		setEmail(e.target.value);
-	};
-
-	const onPasswordChange = (e) => {
-		setPassword(e.target.value);
-	};
-
-	const onConfirmPasswordChange = (e) => {
-		setConfirmPassword(e.target.value);
-	};
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
@@ -37,9 +23,10 @@ const RegisterInput = ({ register }) => {
 				name: name,
 				email: email,
 				password: password,
+				locale: locale,
 			});
 		} else {
-			alert('Password Tidak Sama');
+			toast.error(locale === 'id' ? 'Password Tidak Sama' : "password doesn't match");
 		}
 	};
 

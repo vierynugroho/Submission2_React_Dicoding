@@ -2,21 +2,14 @@ import React, { useContext, useState } from 'react';
 import Proptypes from 'prop-types';
 
 import LocaleContext from '../../contexts/LocaleContext';
+import useInput from '../../hooks/useInput';
 
 const LoginInput = ({ login }) => {
-	const [email, setEmail] = useState();
-	const [password, setPassword] = useState();
+	const [email, onEmailChange] = useInput('');
+	const [password, onPasswordChange] = useInput('');
 
 	// contexts
 	const { locale, toggleLocale } = useContext(LocaleContext);
-
-	const onEmailChangeHandler = (e) => {
-		setEmail(e.target.value);
-	};
-
-	const onPasswordChangeHandler = (e) => {
-		setPassword(e.target.value);
-	};
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
@@ -24,6 +17,7 @@ const LoginInput = ({ login }) => {
 		login({
 			email: email,
 			password: password,
+			locale: locale,
 		});
 	};
 
@@ -37,7 +31,7 @@ const LoginInput = ({ login }) => {
 						type='email'
 						placeholder='Email'
 						value={email}
-						onChange={onEmailChangeHandler}
+						onChange={onEmailChange}
 					/>
 					<label htmlFor='password'>Password</label>
 					<input
@@ -45,7 +39,7 @@ const LoginInput = ({ login }) => {
 						type='password'
 						placeholder='Password'
 						value={password}
-						onChange={onPasswordChangeHandler}
+						onChange={onPasswordChange}
 					/>
 					<button type='submit'>{locale === 'id' ? 'Masuk' : 'Login'}</button>
 				</form>

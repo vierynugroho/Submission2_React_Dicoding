@@ -5,18 +5,16 @@ import { getArchivedNotes } from '../utils/network-data';
 import { useEffect, useState, useContext } from 'react';
 
 import LocaleContext from '../contexts/LocaleContext';
-import ThemeContext from './../contexts/ThemeContext';
 
 const ArchiveNotes = ({ onSearch, title }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
-	const { theme, toggleTheme } = useContext(ThemeContext);
 
 	const [notes, setNotes] = useState([]);
 
 	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchNotes = async () => {
-			const { data } = await getArchivedNotes();
+			const { data } = await getArchivedNotes(locale);
 			setNotes(data);
 		};
 		fetchNotes();

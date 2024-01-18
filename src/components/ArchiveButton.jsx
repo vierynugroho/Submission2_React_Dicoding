@@ -3,16 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { MdArchive } from 'react-icons/md';
 import { archiveNote } from '../utils/network-data';
 
+import LocaleContext from '../contexts/LocaleContext';
+import { useContext } from 'react';
+
 const ArchiveButton = ({ noteId }) => {
+	const { locale, toggleLocale } = useContext(LocaleContext);
+
 	const navigate = useNavigate();
 	return (
 		<>
 			<button
 				className='action'
 				type='button'
-				title='Arsipkan'
+				title={locale === 'id' ? 'Arsip' : 'Archive'}
 				onClick={() => {
-					archiveNote(noteId);
+					archiveNote(noteId, locale);
 					navigate('/archives');
 				}}
 			>

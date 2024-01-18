@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-import { FaBox, FaRegMoon } from 'react-icons/fa';
+import { FaBox, FaBoxOpen, FaRegMoon } from 'react-icons/fa';
 import { MdGTranslate, MdOutlineWbSunny } from 'react-icons/md';
 import { CiLogout } from 'react-icons/ci';
 
@@ -12,6 +12,9 @@ import ThemeContext from './../contexts/ThemeContext';
 const NoteHeader = ({ authedUser, onLogout }) => {
 	const { locale, toggleLocale } = useContext(LocaleContext);
 	const { theme, toggleTheme } = useContext(ThemeContext);
+
+	const location = useLocation();
+	const pathName = location.pathname;
 
 	return (
 		<>
@@ -27,30 +30,51 @@ const NoteHeader = ({ authedUser, onLogout }) => {
 				<nav className='navigation'>
 					<ul>
 						<li
-							className='theme'
+							title={locale === 'id' ? theme : theme}
+							className='theme pointer'
 							onClick={toggleTheme}
 						>
 							{theme === 'dark' ? <MdOutlineWbSunny /> : <FaRegMoon />}
 						</li>
 						<li
-							className='translate'
+							title={locale === 'id' ? 'ID' : 'EN'}
+							className='translate pointer'
 							onClick={toggleLocale}
 						>
 							<MdGTranslate />
 						</li>
 						{authedUser !== null ? (
 							<>
-								<li key={'arsip'}>
-									<Link
-										className='link'
-										to={'archives'}
+								{pathName === '/archives' ? (
+									<li
+										key={'active'}
+										title={locale === 'id' ? 'Aktif' : 'Active'}
 									>
-										<FaBox /> {locale === 'id' ? 'Arsip' : 'Archive'}
-									</Link>
-								</li>
+										<Link
+											className='link pointer'
+											to={'/'}
+										>
+											<FaBoxOpen /> {locale === 'id' ? 'Aktif' : 'Active'}
+										</Link>
+									</li>
+								) : (
+									<li
+										key={'arsip'}
+										title={locale === 'id' ? 'Arsip' : 'Archive'}
+									>
+										<Link
+											className='link pointer'
+											to={'archives'}
+										>
+											<FaBox /> {locale === 'id' ? 'Arsip' : 'Archive'}
+										</Link>
+									</li>
+								)}
 								<li
+									className='pointer'
 									key={'logout'}
 									onClick={onLogout}
+									title={locale === 'id' ? 'Keluar' : 'Logout'}
 								>
 									<CiLogout /> {authedUser.name}
 								</li>

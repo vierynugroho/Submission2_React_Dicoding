@@ -266,6 +266,10 @@ main {
   list-style: none;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .input-login input,
 .input-register input {
   font-size: 18px;
