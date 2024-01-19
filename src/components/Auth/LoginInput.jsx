@@ -13,12 +13,11 @@ const LoginInput = ({ login }) => {
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
+		const form = e.target;
+		const formData = new FormData(form);
+		const formJson = Object.fromEntries(formData.entries());
 
-		login({
-			email: email,
-			password: password,
-			locale: locale,
-		});
+		login(formJson);
 	};
 
 	return (
@@ -28,6 +27,7 @@ const LoginInput = ({ login }) => {
 					<label htmlFor='email'>Email</label>
 					<input
 						id='email'
+						name='email'
 						type='email'
 						placeholder='Email'
 						value={email}
@@ -36,6 +36,7 @@ const LoginInput = ({ login }) => {
 					<label htmlFor='password'>Password</label>
 					<input
 						id='password'
+						name='password'
 						type='password'
 						placeholder='Password'
 						value={password}

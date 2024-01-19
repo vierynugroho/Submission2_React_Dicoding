@@ -53,7 +53,6 @@ const App = () => {
 		};
 	}, [locale]);
 
-	// toggle theme
 	const toggleTheme = () => {
 		setTheme((prevTheme) => {
 			const newTheme = prevTheme === 'dark' ? 'light' : 'dark';
@@ -69,14 +68,12 @@ const App = () => {
 		};
 	}, [theme]);
 
-	// Login Function
 	const onLoginSuccess = async ({ accessToken }) => {
 		putAccessToken(accessToken);
 		const { data } = await getUserLogged();
 		setAuthedUser(data);
 	};
 
-	// render awal dan render selanjutnya
 	useEffect(() => {
 		const fetchUser = async () => {
 			const { data } = await getUserLogged();
@@ -86,7 +83,6 @@ const App = () => {
 		fetchUser();
 	}, []);
 
-	// logout function
 	const onLogout = () => {
 		setAuthedUser(null);
 		putAccessToken('');

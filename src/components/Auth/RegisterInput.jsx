@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { PropTypes } from 'prop-types';
+import { toast } from 'react-toastify';
 
 // context
 import LocaleContext from './../../contexts/LocaleContext';
+
 import useInput from '../../hooks/useInput';
-import { toast } from 'react-toastify';
 
 const RegisterInput = ({ register }) => {
 	const [name, onNameChange] = useInput('');
@@ -17,14 +18,12 @@ const RegisterInput = ({ register }) => {
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
+		const form = e.target;
+		const formData = new FormData(form);
+		const formJson = Object.fromEntries(formData.entries());
 
-		if (password === confirmPassword) {
-			register({
-				name: name,
-				email: email,
-				password: password,
-				locale: locale,
-			});
+		if (formData.get('password') === formData.get('confirmPassword')) {
+			register(formJson);
 		} else {
 			toast.error(locale === 'id' ? 'Password Tidak Sama' : "password doesn't match");
 		}
@@ -34,9 +33,15 @@ const RegisterInput = ({ register }) => {
 		<>
 			<div className='input-register'>
 				<form onSubmit={onSubmitHandler}>
+					<input
+						type='hidden'
+						name='locale'
+						value={locale}
+					/>
 					<label htmlFor='name'>{locale === 'id' ? 'Nama' : 'Name'}</label>
 					<input
 						id='name'
+						name='name'
 						type='text'
 						placeholder={locale === 'id' ? 'Nama' : 'Name'}
 						value={name}
@@ -45,6 +50,7 @@ const RegisterInput = ({ register }) => {
 					<label htmlFor='email'>Email</label>
 					<input
 						id='email'
+						name='email'
 						type='email'
 						placeholder='Email'
 						value={email}
@@ -53,6 +59,7 @@ const RegisterInput = ({ register }) => {
 					<label htmlFor='password'>Password</label>
 					<input
 						id='password'
+						name='password'
 						type='password'
 						placeholder='Password'
 						autoComplete='current-password'
@@ -62,6 +69,7 @@ const RegisterInput = ({ register }) => {
 					<label htmlFor='confirmPassword'>{locale === 'id' ? 'Konfirmasi Password' : 'Confirm Password'}</label>
 					<input
 						id='confirmPassword'
+						name='confirmPassword'
 						type='password'
 						placeholder={locale === 'id' ? 'Konfirmasi Password' : 'Confirm Password'}
 						autoComplete='current-password'

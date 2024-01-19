@@ -1,4 +1,4 @@
-import NoteItem from '../components/NoteItem';
+import NoteItem, { noteItemPropTypes } from '../components/NoteItem';
 import { PropTypes } from 'prop-types';
 
 const NoteList = ({ notes }) => {
@@ -17,7 +17,6 @@ const NoteList = ({ notes }) => {
 };
 
 NoteList.propTypes = {
-	notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+	ﾠnotes: PropTypes.arrayOf(PropTypes.shape(noteItemPropTypes)).isRequired,
 };
-
 export default NoteList;
